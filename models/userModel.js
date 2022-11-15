@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+import * as mongoose from "mongoose";
+import { Schema, model } from "mongoose";
 
-const { Schema } = mongoose.Schema;
 
 export const userSchema = new Schema({
     name: {
@@ -11,10 +11,9 @@ export const userSchema = new Schema({
         type: String,
         required: "Enter mail"
     },
-    address: [
-        {type: Schema.Types.ObjectId, ref: 'Address'}
-    ],
     CPF: String,
     PIS: String,
     password: String
 })
+
+export const UserModel = mongoose.model('User', userSchema)

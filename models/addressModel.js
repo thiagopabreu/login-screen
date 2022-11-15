@@ -1,15 +1,20 @@
-import mongoose from "mongoose";
+import * as mongoose from "mongoose";
 
-const { Schema } = mongoose.Schema;
+const Schema  = mongoose.Schema;
 
-export const addressSchema = new Schema({
+const addressSchema = new Schema({
     country: String,
     state: String,
     county: String,
-    CEP: String,
+    CEP: String,  
     streetAddress: String,
     number: String,
-    complement: String
+    complement: String,
+    _idUser: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    }
 })
 
-module.exports = mongoose.model('Address', addressSchema)
+export const AddressSchema = mongoose.model('Address', addressSchema)

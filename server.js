@@ -1,18 +1,28 @@
-const express = require('express');
-const cors = require('cors')
-const bodyParser = require('body-parser')
+// Libs
+import express from 'express'
+import cors from 'cors'
+import bodyParser from 'body-parser'
+import dotenv from 'dotenv'
+//Models
+import { AddressSchema } from './models/addressModel.js'
+//Database Connection
+import { db } from './db/db.js'
+//Routes
+import { userRouter } from './routes/users.js'
 
-const PORT = 3000 || process.env.PORT;
-const HOST = '0.0.0.0';
+//Express config
+const PORT = process.env.PORT;
+const HOST = '0.0.0.0'
 const app = express();
-
+dotenv.config()
 app.use(cors())
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
+app.use(express.json())
 
+//Routes
+app.use('/users', userRouter)
 
-app.get('/', (req, res) => {
-    res.send('Hello World teste');
+app.listen(PORT, HOST, () => {
+    console.log('Listening port ' + process.env.PORT)
 })
-
-app.listen(PORT, HOST)
