@@ -1,6 +1,6 @@
 import express from 'express'
 import { UserModel } from '../models/userModel.js'
-import { AddressSchema } from '../models/addressModel.js'
+import { AddressModel } from '../models/addressModel.js'
 
 let router = express.Router()
 
@@ -25,7 +25,6 @@ router.get('/all', async (req, res) => {
 //Get Method for get a specific user from database using ID
 router.get('/:id', async (req, res) => {
     const id = req.params.id
-    console.log(id)
     const user = await UserModel.findById(id)
     try {
         if(user == null) {
@@ -44,6 +43,7 @@ router.get('/:id', async (req, res) => {
 })
 
 //Post Method for register a user to database
+//@TODO It's creating a lot of address of a User, debug it
 router.post('/registration', async (req, res) => {
     const user = new UserModel({
         name: req.body.name,
@@ -52,7 +52,7 @@ router.post('/registration', async (req, res) => {
         PIS: req.body.PIS,
         password: req.body.password
     })
-    const address = new AddressSchema({
+    const address = new AddressModel({
         country: req.body.address.country,
         state: req.body.address.state,
         county: req.body.address.county,
@@ -65,8 +65,14 @@ router.post('/registration', async (req, res) => {
     try {
         const exist = await UserModel.findOne({ CPF: user.CPF}).select("CPF").lean()
         if(exist) {
+            const exist = await AddressModel.findOne({ _idUser: user._id}).select("_idUser").lean()
+            if(exist) {
+                res.status(409).json({
+                    error: `CPF ${user.CPF} already has a address`
+                })
+            }
             res.status(409).json({
-                error: `CPF ${user.CPF} Already Exists`,
+                error: `CPF ${user.CPF} already registered`,
                 code: 409
             })
         }
@@ -95,9 +101,9 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
     const id = req.params.id
-
     try {
         await UserModel.findByIdAndDelete(id)
+        await AddressModel.findOneAndDelete({ _idUser: id })
         res.status(200).send('User Deleted')
     } catch(e) {
         res.status(500)
