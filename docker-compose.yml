@@ -1,15 +1,27 @@
 version: "3"
 
 services: 
+  client: 
+    container_name: 'client'
+    build: ./client
+    ports: 
+      - 3001:3000
+    links: 
+      - app
+    depends_on:
+      - app
   app:
     container_name: 'server'
     build: .
     command: npm start
     ports: 
-      - "3000:3000"
+      - 5000
     volumes:
       - .:/usr/app
-      - '/app/node_modules'
+      - '/usr/src/app/node_modules' 
+    depends_on:
+      - db
+
   db: 
     image: mongo:4.2
     container_name: db
@@ -20,5 +32,7 @@ services:
       MONGO_INITDB_DATABASE: ${DB_NAME}
       MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${DB_PASS}
+  
+
 
 

@@ -1,6 +1,6 @@
 import * as mongoose from "mongoose";
 import { Schema, model } from "mongoose";
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 
 
 export const userSchema = new Schema({
@@ -8,29 +8,35 @@ export const userSchema = new Schema({
         type: String,
         required: 'Enter name'
     },
-    mail: {
+    email: {
         type: String,
-        required: "Enter mail"
+        required: "Enter email"
     },
     CPF: String,
     PIS: String,
     password: String
 })
 
-userSchema.pre('save', (next) => {
-    if(!this.isModified('password')) return next()
+userSchema.pre('save', function(next) {
 
-    bcrypt.genSalt(process.env.SALT_FACTOR_BCRYPT, (error, salt) => {
-        if(err) return next(err);
-
-        bcrypt.hash(user.password, salt, (error, hash) => {
-            if(err) return next(error)
-
+    const user = this
+    console.log(this)
+    bcrypt.genSalt(10, (error, salt) => {
+        if(error) return next(error);
+        console.log('entre no genSalt depois do if')
+        bcrypt.hash(this.password, salt, (error, hash) => {
+            if(error) return next(error)
+            console.log('entrei no hash depois do if')
             this.password = hash
             next()
         })
     })
-    
 })
+
+userSchema.methods.comparePassword = async function(password){
+    console.log('KKKKKKKKKKKKKKKKKKKK')
+    let result = await bcrypt.compare(password, this.password)
+    return result
+}
 
 export const UserModel = mongoose.model('User', userSchema)

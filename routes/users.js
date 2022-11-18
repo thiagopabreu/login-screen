@@ -1,8 +1,13 @@
 import express from 'express'
-import { UserModel } from '../models/userModel.js'
-import { AddressModel } from '../models/addressModel.js'
-
 let router = express.Router()
+import { UserModel, userSchema } from '../models/userModel.js'
+import { AddressModel } from '../models/addressModel.js'
+import jsonwebtoken from 'jsonwebtoken'
+import dotenv from 'dotenv'
+dotenv.config()
+
+const secret = process.env.JWT_TOKEN
+
 
 //Get Method for get all users from database
 router.get('/all', async (req, res) => {
@@ -44,10 +49,10 @@ router.get('/:id', async (req, res) => {
 
 //Post Method for register a user to database
 //@TODO It's creating a lot of address of a User, debug it
-router.post('/registration', async (req, res) => {
+router.post('/register', async (req, res) => {
     const user = new UserModel({
         name: req.body.name,
-        mail: req.body.mail,
+        email: req.body.email,
         CPF: req.body.CPF,
         PIS: req.body.PIS,
         password: req.body.password
@@ -85,6 +90,30 @@ router.post('/registration', async (req, res) => {
         res.status(500).send(e)
         console.log(e)
     }
+})
+
+router.post('/login', async function(req, res) {
+    const { email, password } = req.body
+    let user = await UserModel.findOne({ email })
+
+    try{
+        if(!user) {
+            res.status(401).json({ message: "Incorrect email or password"})
+        } else {
+            let result = await user.comparePassword(password)
+            console.log(result)
+            if(!result) {
+                res.status(402).json({ message: "Incorrect email or password"})
+            } else {
+                const token = jsonwebtoken.sign({ email }, secret, { expiresIn: '1d' } )
+                res.status(200).json({ user: user, token: token })
+            }
+            
+        }
+    } catch(e) {
+        res.status(500).json({e})
+    }
+    
 })
 
 router.put('/:id', async (req, res) => {
