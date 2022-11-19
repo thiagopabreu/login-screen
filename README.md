@@ -27,11 +27,11 @@
 
 <p>
     Os passos são:
-    • `git clone this-app`
-    • `cd this-app`
-    • `npm install`
-    • `docker build -t name-of-build`
-    • `docker-compose up -d`
-    • `cd client`
-    • `npm start`
+    `git clone this-app`
+    `cd this-app`
+    `npm install`
+    `docker build -t name-of-build`
+    `docker-compose up -d`
+    `cd client`
+    `npm start`
 </p>
