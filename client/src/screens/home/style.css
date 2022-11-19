@@ -1,0 +1,20 @@
+.background-image {
+    background: rgb(230,244,241);
+    background: linear-gradient(180deg, rgba(230,244,241,1) 25%, rgba(157,177,235,1) 76%, rgba(76,143,248,1) 100%);
+    min-height: 100vh;
+    min-width: 100vh;
+    top: 0;
+    left: 0;
+}
+
+/* @media (min-width: 768px)
+.container {
+    max-width: 720px;
+}
+
+@media (min-width: 576px)
+.container {
+    max-width: 540px;
+}  */
+
+

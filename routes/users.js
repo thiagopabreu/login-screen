@@ -98,12 +98,12 @@ router.post('/login', async function(req, res) {
 
     try{
         if(!user) {
-            res.status(401).json({ message: "Incorrect email or password"})
+            res.status(401).json({ message: "Incorrect email or password", code: 401})
         } else {
             let result = await user.comparePassword(password)
             console.log(result)
             if(!result) {
-                res.status(402).json({ message: "Incorrect email or password"})
+                res.status(402).json({ message: "Incorrect email or password", code: 402})
             } else {
                 const token = jsonwebtoken.sign({ email }, secret, { expiresIn: '1d' } )
                 res.status(200).json({ user: user, token: token })

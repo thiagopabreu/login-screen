@@ -1,21 +1,13 @@
 version: "3"
 
 services: 
-  client: 
-    container_name: 'client'
-    build: ./client
-    ports: 
-      - 3001:3000
-    links: 
-      - app
-    depends_on:
-      - app
+    
   app:
     container_name: 'server'
     build: .
     command: npm start
     ports: 
-      - 5000
+      - 5000:5000
     volumes:
       - .:/usr/app
       - '/usr/src/app/node_modules' 
