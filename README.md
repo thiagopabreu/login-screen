@@ -10,7 +10,7 @@
 <p>Essa aplicação foi desenvolvida com o intuito de fazer uma tela de login em ReactJS, usando Express como Web Servidor e MongoDB como banco de dados. Essa aplicação usa JWT como autenticação e tem as senhas dos usuários criptografadas.</p>
 <p>Além disso, a aplicação tem com o Docker o seu aliado, contendo tanto o servidor quanto o banco de dados dentro dele.</p>
 
-<h2>Packages</h2>
+<h2>🖥️ Packages</h2>
 <ul>
     <li>Express</li>
     <li>React</li>
@@ -19,3 +19,19 @@
     <li>Dotenv</li>
     <li>Mongoose</li>
 </ul>
+
+<h2>🚀 Getting Started</h2>
+<p>
+    Primeiramente você tem a necessidade de ter o node instalado na sua máquina para poder rodar essa aplicação, precisando usar o `npm install` para baixar todas os pacotes necessários encontrados no package.json
+</p>
+
+<p>
+    Os passos são:
+    • `git clone this-app`
+    • `cd this-app`
+    • `npm install`
+    • `docker build -t name-of-build`
+    • `docker-compose up -d`
+    • `cd client`
+    • `npm start`
+</p>
