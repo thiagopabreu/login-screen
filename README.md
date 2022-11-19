@@ -25,10 +25,10 @@
     Primeiramente você tem a necessidade de ter o node instalado na sua máquina para poder rodar essa aplicação, precisando usar o `npm install` para baixar todas os pacotes necessários encontrados no package.json
 </p>
 Os passos são:
-<p>`git clone this-app`</p>
-<p>`cd this-app`</p>
-<p>`npm install`</p>
-<p>`docker build -t name-of-build`</p>
-<p>`docker-compose up -d`</p>
-<p>`cd client`</p>
-<p>`npm start`</p>
+<p>• git clone this-app</p>
+<p>• cd this-app</p>
+<p>• npm install</p>
+<p>• docker build -t name-of-build</p>
+<p>• docker-compose up -d</p>
+<p>• cd client</p>
+<p>• npm start</p>
